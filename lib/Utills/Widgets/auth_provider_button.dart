@@ -15,7 +15,7 @@ class AuthProviderButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 46,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColor.whiteColor,
@@ -25,11 +25,15 @@ class AuthProviderButton extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             image,
             height: 20,
             width: 20,
+          ),
+          const SizedBox(
+            width: 6,
           ),
           Text(
             title,

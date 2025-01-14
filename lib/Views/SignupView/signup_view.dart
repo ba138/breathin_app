@@ -5,17 +5,17 @@ import 'package:breathin_app/Utills/Widgets/auth_provider_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_textfield.dart';
 import 'package:breathin_app/Utills/Widgets/vertical_Speacing.dart';
-import 'package:breathin_app/Views/SignupView/signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class SignupView extends StatelessWidget {
+  const SignupView({super.key});
 
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
+    var userNameController = TextEditingController();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -55,7 +55,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Please enter your details to continue",
+                          "Please enter your details to Register",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -63,6 +63,13 @@ class LoginView extends StatelessWidget {
                         ),
                         VerticalSpeacing(
                           30,
+                        ),
+                        TextFieldCustom(
+                          maxLines: 1,
+                          title: "User Name",
+                          controller: userNameController,
+                          hintText: "example",
+                          keyboardType: TextInputType.emailAddress,
                         ),
                         TextFieldCustom(
                           maxLines: 1,
@@ -81,20 +88,6 @@ class LoginView extends StatelessWidget {
                           obscureText: true,
                           hintText: "must be 8 characters",
                           keyboardType: TextInputType.visiblePassword,
-                        ),
-                        VerticalSpeacing(
-                          8,
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            "Forget Password",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.blackColor,
-                            ),
-                          ),
                         ),
                         VerticalSpeacing(
                           20,
@@ -132,16 +125,16 @@ class LoginView extends StatelessWidget {
                         VerticalSpeacing(
                           20,
                         ),
-                        RoundedButton(title: "Continue", onpress: () {}),
+                        RoundedButton(title: "Register", onpress: () {}),
                         VerticalSpeacing(30),
                         AuthProviderButton(
                           image: "images/google.png",
-                          title: "Sign in with Google",
+                          title: "Signup with Google",
                         ),
                         VerticalSpeacing(10),
                         AuthProviderButton(
                           image: "images/fb.png",
-                          title: "Sign in with Facebook",
+                          title: "Signup with Facebook",
                         ),
                         VerticalSpeacing(
                           20,
@@ -180,7 +173,7 @@ class LoginView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Did,t not have account?",
+                              "Already have account?",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -189,12 +182,10 @@ class LoginView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.to(
-                                  SignupView(),
-                                );
+                                Get.back();
                               },
                               child: Text(
-                                "Signup",
+                                "Login",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
