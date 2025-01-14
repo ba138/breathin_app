@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "530554151063",
+    "project_id": "breathin-a046f",
+    "storage_bucket": "breathin-a046f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530554151063:android:a48c40f08942e161b089d2",
+        "android_client_info": {
+          "package_name": "com.example.breathin_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4Ql-1QsxE5FGGMN0e0RMCD48M1_F70T0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

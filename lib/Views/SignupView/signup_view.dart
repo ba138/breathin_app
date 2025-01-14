@@ -6,20 +6,20 @@ import 'package:breathin_app/Utills/Widgets/auth_provider_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_textfield.dart';
 import 'package:breathin_app/Utills/Widgets/vertical_Speacing.dart';
-import 'package:breathin_app/Views/SignupView/signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class SignUpView extends StatelessWidget {
+  SignUpView({super.key});
+
+  final _formKey = GlobalKey<FormState>();
+  final SignupController authController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final SignupController authController = Get.put(SignupController());
-
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
+    var userNameController = TextEditingController();
 
     return Scaffold(
       body: SafeArea(
@@ -36,20 +36,15 @@ class LoginView extends StatelessWidget {
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                   child: Container(
-                    color: Colors.black.withValues(alpha: 0),
+                    color: Colors.black.withValues(alpha: 0.3),
                   ),
                 ),
               ),
               SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: 40,
-                    bottom: 20,
-                  ),
+                  padding: const EdgeInsets.all(20),
                   child: Form(
-                    key: _formKey, // Assign form key
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -62,7 +57,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Please enter your details to continue",
+                          "Please enter your details to Register",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -70,7 +65,19 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         VerticalSpeacing(30),
-                        // Email Field with validation
+                        TextFieldCustom(
+                          maxLines: 1,
+                          title: "User Name",
+                          controller: userNameController,
+                          hintText: "example",
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'User Name is required';
+                            }
+                            return null;
+                          },
+                        ),
                         TextFieldCustom(
                           maxLines: 1,
                           title: "Email",
@@ -81,9 +88,7 @@ class LoginView extends StatelessWidget {
                             if (value == null || value.isEmpty) {
                               return 'Email is required';
                             }
-                            // Basic email format validation
-                            if (!RegExp(
-                                    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                            if (!RegExp(r"^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+")
                                 .hasMatch(value)) {
                               return 'Enter a valid email';
                             }
@@ -91,7 +96,6 @@ class LoginView extends StatelessWidget {
                           },
                         ),
                         VerticalSpeacing(8),
-                        // Password Field with validation
                         TextFieldCustom(
                           maxLines: 1,
                           title: "Password",
@@ -108,18 +112,6 @@ class LoginView extends StatelessWidget {
                             }
                             return null;
                           },
-                        ),
-                        VerticalSpeacing(8),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            "Forget Password",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.blackColor,
-                            ),
-                          ),
                         ),
                         VerticalSpeacing(20),
                         Row(
@@ -152,24 +144,24 @@ class LoginView extends StatelessWidget {
                         ),
                         VerticalSpeacing(20),
                         RoundedButton(
-                          title: "Continue",
-                          onpress: () {
-                            authController.loginUser(
-                              email: emailController.text,
-                              password: passwordController.text,
-                              formKey: _formKey,
-                            );
-                          },
-                        ),
+                            title: "Register",
+                            onpress: () {
+                              authController.signupUser(
+                                username: userNameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                formKey: _formKey,
+                              );
+                            }),
                         VerticalSpeacing(30),
                         AuthProviderButton(
                           image: "images/google.png",
-                          title: "Sign in with Google",
+                          title: "Signup with Google",
                         ),
                         VerticalSpeacing(10),
                         AuthProviderButton(
                           image: "images/fb.png",
-                          title: "Sign in with Facebook",
+                          title: "Signup with Facebook",
                         ),
                         VerticalSpeacing(20),
                         Row(
@@ -202,7 +194,7 @@ class LoginView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Didn't have an account?",
+                              "Already have an account?",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -211,10 +203,10 @@ class LoginView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.to(SignUpView());
+                                Get.back();
                               },
                               child: Text(
-                                "Signup",
+                                "Login",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
