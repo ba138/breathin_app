@@ -14,35 +14,40 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("images/yoga_girl.jpg"), fit: BoxFit.cover),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/yoga_girl.jpg"),
+              fit: BoxFit.cover,
             ),
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                    child: Container(
-                      color: Colors.black.withValues(
-                        alpha: 0,
-                      ),
-                    ),
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    color: Colors.black.withValues(alpha: 0),
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                      top: 40,
-                      bottom: 20,
-                    ),
+              ),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 40,
+                    bottom: 20,
+                  ),
+                  child: Form(
+                    key: _formKey, // Assign form key
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -57,23 +62,34 @@ class LoginView extends StatelessWidget {
                         Text(
                           "Please enter your details to continue",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.whiteColor),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.whiteColor,
+                          ),
                         ),
-                        VerticalSpeacing(
-                          30,
-                        ),
+                        VerticalSpeacing(30),
+                        // Email Field with validation
                         TextFieldCustom(
                           maxLines: 1,
                           title: "Email",
                           controller: emailController,
                           hintText: "example@gmail.com",
                           keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+                            // Basic email format validation
+                            if (!RegExp(
+                                    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                                .hasMatch(value)) {
+                              return 'Enter a valid email';
+                            }
+                            return null;
+                          },
                         ),
-                        VerticalSpeacing(
-                          8,
-                        ),
+                        VerticalSpeacing(8),
+                        // Password Field with validation
                         TextFieldCustom(
                           maxLines: 1,
                           title: "Password",
@@ -81,10 +97,17 @@ class LoginView extends StatelessWidget {
                           obscureText: true,
                           hintText: "must be 8 characters",
                           keyboardType: TextInputType.visiblePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            }
+                            if (value.length < 8) {
+                              return 'Password must be at least 8 characters';
+                            }
+                            return null;
+                          },
                         ),
-                        VerticalSpeacing(
-                          8,
-                        ),
+                        VerticalSpeacing(8),
                         Align(
                           alignment: Alignment.topRight,
                           child: Text(
@@ -96,9 +119,7 @@ class LoginView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        VerticalSpeacing(
-                          20,
-                        ),
+                        VerticalSpeacing(20),
                         Row(
                           children: [
                             Container(
@@ -116,9 +137,7 @@ class LoginView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 8,
-                            ),
+                            const SizedBox(width: 8),
                             Text(
                               "I accept the terms and privacy policy",
                               style: TextStyle(
@@ -129,10 +148,19 @@ class LoginView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        VerticalSpeacing(
-                          20,
+                        VerticalSpeacing(20),
+                        RoundedButton(
+                          title: "Continue",
+                          onpress: () {
+                            // Validate form on button press
+                            if (_formKey.currentState?.validate() ?? false) {
+                              // Perform login action
+                              print("Form is valid. Logging in...");
+                            } else {
+                              print("Form is invalid.");
+                            }
+                          },
                         ),
-                        RoundedButton(title: "Continue", onpress: () {}),
                         VerticalSpeacing(30),
                         AuthProviderButton(
                           image: "images/google.png",
@@ -143,20 +171,16 @@ class LoginView extends StatelessWidget {
                           image: "images/fb.png",
                           title: "Sign in with Facebook",
                         ),
-                        VerticalSpeacing(
-                          20,
-                        ),
+                        VerticalSpeacing(20),
                         Row(
                           children: [
                             Expanded(
                               child: Divider(
                                 color: AppColor.whiteColor,
-                                thickness: 1, // Optional: Adjust thickness
+                                thickness: 1,
                               ),
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
+                            const SizedBox(width: 6),
                             Text(
                               "or",
                               style: TextStyle(
@@ -165,13 +189,11 @@ class LoginView extends StatelessWidget {
                                 color: AppColor.whiteColor,
                               ),
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
+                            const SizedBox(width: 6),
                             Expanded(
                               child: Divider(
                                 color: AppColor.whiteColor,
-                                thickness: 1, // Optional: Adjust thickness
+                                thickness: 1,
                               ),
                             ),
                           ],
@@ -180,7 +202,7 @@ class LoginView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Did,t not have account?",
+                              "Didn't have an account?",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -189,9 +211,7 @@ class LoginView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Get.to(
-                                  SignupView(),
-                                );
+                                Get.to(SignUpView());
                               },
                               child: Text(
                                 "Signup",
@@ -204,15 +224,15 @@ class LoginView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        VerticalSpeacing(
-                          20,
-                        ),
+                        VerticalSpeacing(20),
                       ],
                     ),
                   ),
                 ),
-              ],
-            )),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

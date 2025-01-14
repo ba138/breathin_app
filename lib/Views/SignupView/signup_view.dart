@@ -8,41 +8,41 @@ import 'package:breathin_app/Utills/Widgets/vertical_Speacing.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignupView extends StatelessWidget {
-  const SignupView({super.key});
+class SignUpView extends StatelessWidget {
+  SignUpView({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
     var userNameController = TextEditingController();
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("images/yoga_girl.jpg"), fit: BoxFit.cover),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/yoga_girl.jpg"),
+              fit: BoxFit.cover,
             ),
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                    child: Container(
-                      color: Colors.black.withValues(
-                        alpha: 0,
-                      ),
-                    ),
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                  child: Container(
+                    color: Colors.black.withValues(alpha: 0.3),
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                      top: 40,
-                      bottom: 20,
-                    ),
+              ),
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -57,19 +57,24 @@ class SignupView extends StatelessWidget {
                         Text(
                           "Please enter your details to Register",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.whiteColor),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.whiteColor,
+                          ),
                         ),
-                        VerticalSpeacing(
-                          30,
-                        ),
+                        VerticalSpeacing(30),
                         TextFieldCustom(
                           maxLines: 1,
                           title: "User Name",
                           controller: userNameController,
                           hintText: "example",
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'User Name is required';
+                            }
+                            return null;
+                          },
                         ),
                         TextFieldCustom(
                           maxLines: 1,
@@ -77,10 +82,18 @@ class SignupView extends StatelessWidget {
                           controller: emailController,
                           hintText: "example@gmail.com",
                           keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+                            if (!RegExp(r"^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+")
+                                .hasMatch(value)) {
+                              return 'Enter a valid email';
+                            }
+                            return null;
+                          },
                         ),
-                        VerticalSpeacing(
-                          8,
-                        ),
+                        VerticalSpeacing(8),
                         TextFieldCustom(
                           maxLines: 1,
                           title: "Password",
@@ -88,10 +101,17 @@ class SignupView extends StatelessWidget {
                           obscureText: true,
                           hintText: "must be 8 characters",
                           keyboardType: TextInputType.visiblePassword,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required';
+                            }
+                            if (value.length < 8) {
+                              return 'Password must be at least 8 characters';
+                            }
+                            return null;
+                          },
                         ),
-                        VerticalSpeacing(
-                          20,
-                        ),
+                        VerticalSpeacing(20),
                         Row(
                           children: [
                             Container(
@@ -109,9 +129,7 @@ class SignupView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              width: 8,
-                            ),
+                            const SizedBox(width: 8),
                             Text(
                               "I accept the terms and privacy policy",
                               style: TextStyle(
@@ -122,10 +140,15 @@ class SignupView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        VerticalSpeacing(
-                          20,
+                        VerticalSpeacing(20),
+                        RoundedButton(
+                          title: "Register",
+                          onpress: () {
+                            if (_formKey.currentState!.validate()) {
+                              // Perform registration logic
+                            }
+                          },
                         ),
-                        RoundedButton(title: "Register", onpress: () {}),
                         VerticalSpeacing(30),
                         AuthProviderButton(
                           image: "images/google.png",
@@ -136,20 +159,16 @@ class SignupView extends StatelessWidget {
                           image: "images/fb.png",
                           title: "Signup with Facebook",
                         ),
-                        VerticalSpeacing(
-                          20,
-                        ),
+                        VerticalSpeacing(20),
                         Row(
                           children: [
                             Expanded(
                               child: Divider(
                                 color: AppColor.whiteColor,
-                                thickness: 1, // Optional: Adjust thickness
+                                thickness: 1,
                               ),
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
+                            const SizedBox(width: 6),
                             Text(
                               "or",
                               style: TextStyle(
@@ -158,13 +177,11 @@ class SignupView extends StatelessWidget {
                                 color: AppColor.whiteColor,
                               ),
                             ),
-                            const SizedBox(
-                              width: 6,
-                            ),
+                            const SizedBox(width: 6),
                             Expanded(
                               child: Divider(
                                 color: AppColor.whiteColor,
-                                thickness: 1, // Optional: Adjust thickness
+                                thickness: 1,
                               ),
                             ),
                           ],
@@ -173,7 +190,7 @@ class SignupView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Already have account?",
+                              "Already have an account?",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
@@ -195,15 +212,15 @@ class SignupView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        VerticalSpeacing(
-                          20,
-                        ),
+                        VerticalSpeacing(20),
                       ],
                     ),
                   ),
                 ),
-              ],
-            )),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
