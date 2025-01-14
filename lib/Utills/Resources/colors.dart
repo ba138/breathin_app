@@ -7,6 +7,6 @@ class AppColor {
   static const Color boxFillColor = Color(0xffEEEEEE);
   static const Color secondaryBgColor = Color(0xffF7F7F7);
   static const Color grayColor = Color(0xff898989);
-  static const Color avatarColor = Color(0xffFEAA48);
+  static const Color backgroundColor = Color(0xffF5F5F5);
   static const Color borderColor = Color(0xff2C5271);
 }
