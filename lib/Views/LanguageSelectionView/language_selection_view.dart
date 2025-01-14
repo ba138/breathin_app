@@ -1,11 +1,10 @@
-import 'package:breathin_app/Controllers/language_controller.dart';
+import 'package:breathin_app/Controllers/auth_controller.dart';
 import 'package:breathin_app/Utills/Resources/colors.dart';
 import 'package:breathin_app/Utills/Widgets/back_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_button.dart';
 import 'package:breathin_app/Utills/Widgets/language_bar.dart';
 import 'package:breathin_app/Utills/Widgets/search_bar.dart';
 import 'package:breathin_app/Utills/Widgets/vertical_Speacing.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +13,7 @@ class LanguageSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LanguageController languageController = Get.put(LanguageController());
+    final SignupController languageController = Get.put(SignupController());
 
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,
@@ -51,43 +50,44 @@ class LanguageSelectionView extends StatelessWidget {
               VerticalSpeacing(
                 16,
               ),
-              Expanded(
-                child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return VerticalSpeacing(
-                        10,
-                      );
-                    },
-                    itemCount: languageController.countryList.length,
-                    itemBuilder: (context, index) {
-                      return LanguageBar();
-                    }),
+              Obx(
+                () {
+                  return Expanded(
+                    child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return VerticalSpeacing(
+                            10,
+                          );
+                        },
+                        itemCount: languageController.countryList.length,
+                        itemBuilder: (context, index) {
+                          var country = languageController.countryList[index];
+                          return LanguageBar(
+                            flag: country['flag']!,
+                            language: country['language']!,
+                            ontap: () {
+                              if (languageController.selectLanguage
+                                  .contains(country['language']!)) {
+                                languageController.selectLanguage
+                                    .remove(country['language']!);
+                              } else {
+                                languageController.selectLanguage.clear();
+                                languageController.selectLanguage
+                                    .add(country['language']!);
+                              }
+                            },
+                          );
+                        }),
+                  );
+                },
               ),
               Spacer(),
-              RoundedButton(
-                  title: "Continue",
-                  onpress: () {
-                    _showCountryPicker(context, languageController);
-                  }),
+              RoundedButton(title: "Continue", onpress: () {}),
               SizedBox(height: 30),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  void _showCountryPicker(
-      BuildContext context, LanguageController languageController) {
-    showCountryPicker(
-      context: context,
-      onSelect: (Country country) {
-        languageController.setSelectedCountry(country);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You selected ${country.name}')),
-        );
-      },
     );
   }
 }

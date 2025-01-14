@@ -10,7 +10,21 @@ class SignupController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   RxBool isLoading = false.obs;
-
+  RxList<Map<String, String>> countryList = <Map<String, String>>[
+    {
+      "flag": "images/usa.png",
+      "language": "English",
+    },
+    {
+      "flag": "images/french.png",
+      "language": "French",
+    },
+    {
+      "flag": "images/spanish.png",
+      "language": "Spanish",
+    }
+  ].obs;
+  var selectLanguage = [].obs;
   Future<void> signupUser({
     required String username,
     required String email,
@@ -119,6 +133,29 @@ class SignupController extends GetxController {
       } else {
         Get.snackbar('Warning', 'Please verify your email before continuing.');
       }
+    }
+  }
+
+  Future<void> updateLanguage(String language) async {
+    try {
+      if (selectLanguage.isEmpty) {
+        Get.snackbar("Warning", "Please Select the language");
+        return;
+      }
+
+      isLoading.value = true;
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({"language": language});
+    } catch (e) {
+      Get.snackbar(
+        'Lanugage Added',
+        language,
+        snackPosition: SnackPosition.TOP,
+      );
+    } finally {
+      isLoading.value = false;
     }
   }
 }
