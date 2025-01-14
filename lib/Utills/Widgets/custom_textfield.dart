@@ -46,11 +46,13 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
           ),
         ),
         Container(
-          height: 48,
           margin: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white.withValues(alpha: 0.2),
+            border: Border.all(
+              color: AppColor.whiteColor,
+            ),
             boxShadow: [
               BoxShadow(
                 color: widget.shadowColor?.withValues(
@@ -70,47 +72,49 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
               ),
             ],
           ),
-          child: TextFormField(
-            controller: widget.controller,
-            keyboardType: widget.keyboardType,
-            obscureText: widget.obscureText && hidden,
-            maxLines: widget.maxLines,
-            style: const TextStyle(fontSize: 15),
-            decoration: InputDecoration(
-              prefixIcon: widget.prefixIcon,
-              prefixIconColor:
-                  widget.shadowColor ?? Colors.black.withValues(alpha: 0.8),
-              hintText: widget.hintText,
-              hintStyle: const TextStyle(color: AppColor.blackColor),
-              filled: false,
-              suffixIcon: widget.obscureText
-                  ? GestureDetector(
-                      onTap: () {
-                        setState(() => hidden = !hidden);
-                      },
-                      child: Icon(
-                        hidden
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: hidden ? AppColor.blackColor : Colors.blue,
-                        size: 24,
-                      ),
-                    )
-                  : null,
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xfff1f1f1)),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: widget.shadowColor ?? const Color(0xfff1f1f1),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              controller: widget.controller,
+              keyboardType: widget.keyboardType,
+              obscureText: widget.obscureText && hidden,
+              maxLines: widget.maxLines,
+              style: const TextStyle(fontSize: 15),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                prefixIcon: widget.prefixIcon,
+                prefixIconColor:
+                    widget.shadowColor ?? Colors.black.withValues(alpha: 0.8),
+                hintText: widget.hintText,
+                hintStyle: const TextStyle(color: AppColor.blackColor),
+                filled: false,
+                suffixIcon: widget.obscureText
+                    ? Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() => hidden = !hidden);
+                          },
+                          child: Icon(
+                            hidden
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: hidden ? AppColor.blackColor : Colors.blue,
+                            size: 18,
+                          ),
+                        ),
+                      )
+                    : null,
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 8,
                 ),
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
-              isDense: true,
+              validator: widget.validator,
+              selectionControls: MaterialTextSelectionControls(),
             ),
-            validator: widget.validator,
-            selectionControls: MaterialTextSelectionControls(),
           ),
         ),
       ],
