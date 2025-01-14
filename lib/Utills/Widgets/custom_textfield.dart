@@ -1,5 +1,7 @@
+import 'package:breathin_app/Controllers/auth_controller.dart';
 import 'package:breathin_app/Utills/Resources/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TextFieldCustom extends StatefulWidget {
   const TextFieldCustom({
@@ -30,7 +32,7 @@ class TextFieldCustom extends StatefulWidget {
 }
 
 class _TextFieldCustomState extends State<TextFieldCustom> {
-  bool hidden = true;
+  final SignupController authController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
         ),
         Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
+          height: 60,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.white.withValues(alpha: 0.2),
@@ -55,17 +58,13 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
             ),
             boxShadow: [
               BoxShadow(
-                color: widget.shadowColor?.withValues(
-                      alpha: 0.5,
-                    ) ??
+                color: widget.shadowColor?.withValues(alpha: 0.5) ??
                     const Color(0x80000000),
                 offset: const Offset(0, 2),
-                blurRadius: 20, //
+                blurRadius: 20,
               ),
               BoxShadow(
-                color: widget.shadowColor?.withValues(
-                      alpha: 0.5,
-                    ) ??
+                color: widget.shadowColor?.withValues(alpha: 0.5) ??
                     const Color(0x33FFFFFF),
                 offset: const Offset(-4, 0),
                 blurRadius: 6,
@@ -78,7 +77,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
               textAlignVertical: TextAlignVertical.center,
               controller: widget.controller,
               keyboardType: widget.keyboardType,
-              obscureText: widget.obscureText && hidden,
+              obscureText: widget.obscureText && !authController.isShow.value,
               maxLines: widget.maxLines,
               style: const TextStyle(fontSize: 15),
               decoration: InputDecoration(
@@ -90,26 +89,32 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                 hintStyle: const TextStyle(color: AppColor.blackColor),
                 filled: false,
                 suffixIcon: widget.obscureText
-                    ? Padding(
-                        padding: const EdgeInsets.all(14.0),
-                        child: GestureDetector(
+                    ? Obx(() {
+                        return InkWell(
                           onTap: () {
-                            setState(() => hidden = !hidden);
+                            authController.isShow.value =
+                                !authController.isShow.value;
                           },
                           child: Icon(
-                            hidden
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: hidden ? AppColor.blackColor : Colors.blue,
+                            authController.isShow.value
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            color: authController.isShow.value
+                                ? AppColor.primaryColor
+                                : AppColor.blackColor,
                             size: 18,
                           ),
-                        ),
-                      )
+                        );
+                      })
                     : null,
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(
-                  vertical: 8,
+                  vertical: 9,
                   horizontal: 8,
+                ),
+                errorStyle: const TextStyle(
+                  fontSize: 12,
+                  height: 0,
                 ),
               ),
               validator: widget.validator,

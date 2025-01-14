@@ -82,8 +82,15 @@ class LanguageSelectionView extends StatelessWidget {
                 },
               ),
               Spacer(),
-              RoundedButton(title: "Continue", onpress: () {}),
-              SizedBox(height: 30),
+              RoundedButton(
+                  title: "Continue",
+                  onpress: () {
+                    languageController
+                        .updateLanguage(languageController.selectLanguage[0]!);
+                  }),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),

@@ -157,6 +157,7 @@ class LoginView extends StatelessWidget {
                             authController.loginUser(
                               email: emailController.text,
                               password: passwordController.text,
+                              formKey: _formKey,
                             );
                           },
                         ),

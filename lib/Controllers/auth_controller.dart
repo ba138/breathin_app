@@ -1,4 +1,5 @@
 import 'package:breathin_app/Models/user_models.dart';
+import 'package:breathin_app/Views/HomeView/home_view.dart';
 import 'package:breathin_app/Views/LanguageSelectionView/language_selection_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,7 @@ import 'package:get/get.dart';
 class SignupController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  RxBool isShow = false.obs;
   RxBool isLoading = false.obs;
   RxList<Map<String, String>> countryList = <Map<String, String>>[
     {
@@ -86,8 +87,12 @@ class SignupController extends GetxController {
   Future<void> loginUser({
     required String email,
     required String password,
+    required GlobalKey<FormState> formKey,
   }) async {
     try {
+      if (!formKey.currentState!.validate()) {
+        return;
+      }
       isLoading.value = true;
 
       // Attempt to log in the user
@@ -148,12 +153,14 @@ class SignupController extends GetxController {
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .update({"language": language});
-    } catch (e) {
       Get.snackbar(
         'Lanugage Added',
         language,
         snackPosition: SnackPosition.TOP,
       );
+      Get.offAll(() => HomeView());
+    } catch (e) {
+      Get.snackbar("Warning", "Internal error occure");
     } finally {
       isLoading.value = false;
     }
