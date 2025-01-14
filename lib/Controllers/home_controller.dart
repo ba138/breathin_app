@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  RxList<Map<String, String>> userList = <Map<String, String>>[].obs;
+  RxList<UserModel> userList = <UserModel>[].obs;
 
   @override
   void onInit() {
@@ -17,21 +17,11 @@ class HomeController extends GetxController {
       final snapshot =
           await FirebaseFirestore.instance.collection('users').get();
 
-      List<UserModel> users = snapshot.docs.map((doc) {
+      final users = snapshot.docs.map((doc) {
         return UserModel.fromMap(doc.data());
       }).toList();
 
-      userList.clear();
-
-      for (var user in users) {
-        userList.add({
-          'userId': user.userId,
-          'username': user.username,
-          'email': user.email,
-          'language': user.language ?? '',
-          'createdAt': user.createdAt?.toString() ?? '',
-        });
-      }
+      userList.assignAll(users);
     } catch (e) {
       debugPrint('Error fetching users: $e');
     }
