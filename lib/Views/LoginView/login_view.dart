@@ -15,7 +15,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final AuthController authController = Get.put(AuthController());
 
     var emailController = TextEditingController();
@@ -49,7 +49,7 @@ class LoginView extends StatelessWidget {
                     bottom: 20,
                   ),
                   child: Form(
-                    key: _formKey, // Assign form key
+                    key: formKey, // Assign form key
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -157,7 +157,7 @@ class LoginView extends StatelessWidget {
                             authController.loginUser(
                               email: emailController.text,
                               password: passwordController.text,
-                              formKey: _formKey,
+                              formKey: formKey,
                             );
                           },
                         ),
