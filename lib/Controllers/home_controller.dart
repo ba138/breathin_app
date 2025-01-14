@@ -6,7 +6,12 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   RxList<Map<String, String>> userList = <Map<String, String>>[].obs;
 
-  // Fetch users from Firestore and update the userList
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUsers();
+  }
+
   Future<void> fetchUsers() async {
     try {
       final snapshot =
