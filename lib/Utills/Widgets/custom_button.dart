@@ -23,7 +23,7 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SignupController signupController = Get.put(SignupController());
+    final AuthController signupController = Get.put(AuthController());
 
     return InkWell(
       onTap: onpress,

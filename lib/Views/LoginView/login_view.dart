@@ -16,7 +16,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final SignupController authController = Get.put(SignupController());
+    final AuthController authController = Get.put(AuthController());
 
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
