@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignupController extends GetxController {
+class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxBool isShow = false.obs;
@@ -73,12 +73,38 @@ class SignupController extends GetxController {
           snackPosition: SnackPosition.TOP,
         );
       }
+    } on FirebaseAuthException catch (e) {
+      isLoading.value = false;
+
+      if (e.code == "weak-password") {
+        Get.snackbar(
+          "Warning",
+          "The password provided is too weak.",
+          snackPosition: SnackPosition.TOP,
+        );
+      } else if (e.code == "email-already-in-use") {
+        Get.snackbar(
+          "Error",
+          "The email address is already in use by another account.",
+          snackPosition: SnackPosition.TOP,
+        );
+      } else {
+        Get.snackbar(
+          "Error",
+          "An unexpected error occurred: ${e.message}",
+          snackPosition: SnackPosition.TOP,
+        );
+      }
     } catch (e) {
+      isLoading.value = false;
+
       Get.snackbar(
         'Error',
-        e.toString(),
+        'An unexpected error occurred. Please try again later.',
         snackPosition: SnackPosition.TOP,
       );
+
+      debugPrint(e.toString());
     } finally {
       isLoading.value = false;
     }
@@ -95,7 +121,6 @@ class SignupController extends GetxController {
       }
       isLoading.value = true;
 
-      // Attempt to log in the user
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -103,27 +128,61 @@ class SignupController extends GetxController {
 
       User? user = userCredential.user;
 
-      if (user != null && user.emailVerified) {
+      if (user != null) {
+        if (user.emailVerified) {
+          Get.snackbar(
+            'Login Successful',
+            'Welcome back, ${user.email}!',
+            snackPosition: SnackPosition.TOP,
+          );
+
+          Get.offAll(() => LanguageSelectionView());
+        } else {
+          Get.snackbar(
+            'Email Not Verified',
+            'Please verify your email to continue.',
+            snackPosition: SnackPosition.TOP,
+          );
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      isLoading.value = false;
+
+      if (e.code == 'user-not-found') {
         Get.snackbar(
-          'Login Successful',
-          'Welcome back, ${user.email}!',
+          'Login Failed',
+          'No user found with this email. Please sign up first.',
           snackPosition: SnackPosition.TOP,
         );
-
-        Get.offAll(() => LanguageSelectionView());
+      } else if (e.code == 'wrong-password') {
+        Get.snackbar(
+          'Login Failed',
+          'Incorrect password. Please try again.',
+          snackPosition: SnackPosition.TOP,
+        );
+      } else if (e.code == 'invalid-email') {
+        Get.snackbar(
+          'Login Failed',
+          'The email address is not valid.',
+          snackPosition: SnackPosition.TOP,
+        );
       } else {
         Get.snackbar(
-          'Email Not Verified',
-          'Please verify your email to continue.',
+          'Login Failed',
+          'An unexpected error occurred: ${e.message}',
           snackPosition: SnackPosition.TOP,
         );
       }
     } catch (e) {
+      isLoading.value = false;
+
       Get.snackbar(
         'Login Failed',
-        e.toString(),
+        'An unexpected error occurred. Please try again later.',
         snackPosition: SnackPosition.TOP,
       );
+
+      debugPrint(e.toString());
     } finally {
       isLoading.value = false;
     }

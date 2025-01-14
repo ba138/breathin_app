@@ -13,7 +13,7 @@ class LanguageSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SignupController languageController = Get.put(SignupController());
+    final AuthController languageController = Get.put(AuthController());
 
     return Scaffold(
       backgroundColor: AppColor.backgroundColor,

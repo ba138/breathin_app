@@ -13,7 +13,7 @@ class SignUpView extends StatelessWidget {
   SignUpView({super.key});
 
   final _formKey = GlobalKey<FormState>();
-  final SignupController authController = Get.put(SignupController());
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {

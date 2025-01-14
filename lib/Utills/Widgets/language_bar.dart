@@ -1,5 +1,4 @@
 import 'package:breathin_app/Controllers/auth_controller.dart';
-import 'package:breathin_app/Controllers/language_controller.dart';
 import 'package:breathin_app/Utills/Resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,7 @@ class LanguageBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SignupController languageController = Get.put(SignupController());
+    final AuthController languageController = Get.put(AuthController());
 
     return Obx(() {
       return InkWell(

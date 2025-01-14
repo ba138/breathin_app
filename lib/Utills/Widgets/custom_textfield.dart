@@ -32,7 +32,7 @@ class TextFieldCustom extends StatefulWidget {
 }
 
 class _TextFieldCustomState extends State<TextFieldCustom> {
-  final SignupController authController = Get.put(SignupController());
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,24 +73,24 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              controller: widget.controller,
-              keyboardType: widget.keyboardType,
-              obscureText: widget.obscureText && !authController.isShow.value,
-              maxLines: widget.maxLines,
-              style: const TextStyle(fontSize: 15),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                prefixIcon: widget.prefixIcon,
-                prefixIconColor:
-                    widget.shadowColor ?? Colors.black.withValues(alpha: 0.8),
-                hintText: widget.hintText,
-                hintStyle: const TextStyle(color: AppColor.blackColor),
-                filled: false,
-                suffixIcon: widget.obscureText
-                    ? Obx(() {
-                        return InkWell(
+            child: Obx(() {
+              return TextFormField(
+                textAlignVertical: TextAlignVertical.center,
+                controller: widget.controller,
+                keyboardType: widget.keyboardType,
+                obscureText: authController.isShow.value,
+                maxLines: widget.maxLines,
+                style: const TextStyle(fontSize: 15),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: widget.prefixIcon,
+                  prefixIconColor:
+                      widget.shadowColor ?? Colors.black.withValues(alpha: 0.8),
+                  hintText: widget.hintText,
+                  hintStyle: const TextStyle(color: AppColor.blackColor),
+                  filled: false,
+                  suffixIcon: widget.obscureText
+                      ? InkWell(
                           onTap: () {
                             authController.isShow.value =
                                 !authController.isShow.value;
@@ -104,22 +104,22 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                                 : AppColor.blackColor,
                             size: 18,
                           ),
-                        );
-                      })
-                    : null,
-                isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 9,
-                  horizontal: 8,
+                        )
+                      : null,
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 9,
+                    horizontal: 8,
+                  ),
+                  errorStyle: const TextStyle(
+                    fontSize: 8,
+                    height: 0,
+                  ),
                 ),
-                errorStyle: const TextStyle(
-                  fontSize: 12,
-                  height: 0,
-                ),
-              ),
-              validator: widget.validator,
-              selectionControls: MaterialTextSelectionControls(),
-            ),
+                validator: widget.validator,
+                selectionControls: MaterialTextSelectionControls(),
+              );
+            }),
           ),
         ),
       ],
