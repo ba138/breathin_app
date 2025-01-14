@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:breathin_app/Controllers/auth_controller.dart';
 import 'package:breathin_app/Utills/Resources/colors.dart';
 import 'package:breathin_app/Utills/Widgets/auth_provider_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_button.dart';
@@ -12,6 +13,7 @@ class SignUpView extends StatelessWidget {
   SignUpView({super.key});
 
   final _formKey = GlobalKey<FormState>();
+  final SignupController authController = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -142,13 +144,15 @@ class SignUpView extends StatelessWidget {
                         ),
                         VerticalSpeacing(20),
                         RoundedButton(
-                          title: "Register",
-                          onpress: () {
-                            if (_formKey.currentState!.validate()) {
-                              // Perform registration logic
-                            }
-                          },
-                        ),
+                            title: "Register",
+                            onpress: () {
+                              authController.signupUser(
+                                username: userNameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                formKey: _formKey,
+                              );
+                            }),
                         VerticalSpeacing(30),
                         AuthProviderButton(
                           image: "images/google.png",

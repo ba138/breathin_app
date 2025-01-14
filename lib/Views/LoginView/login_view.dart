@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:breathin_app/Controllers/auth_controller.dart';
 import 'package:breathin_app/Utills/Resources/colors.dart';
 import 'package:breathin_app/Utills/Widgets/auth_provider_button.dart';
 import 'package:breathin_app/Utills/Widgets/custom_button.dart';
@@ -15,6 +16,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
+    final SignupController authController = Get.put(SignupController());
 
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
@@ -152,13 +154,10 @@ class LoginView extends StatelessWidget {
                         RoundedButton(
                           title: "Continue",
                           onpress: () {
-                            // Validate form on button press
-                            if (_formKey.currentState?.validate() ?? false) {
-                              // Perform login action
-                              print("Form is valid. Logging in...");
-                            } else {
-                              print("Form is invalid.");
-                            }
+                            authController.loginUser(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
                           },
                         ),
                         VerticalSpeacing(30),
