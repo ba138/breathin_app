@@ -112,7 +112,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                     horizontal: 8,
                   ),
                   errorStyle: const TextStyle(
-                    fontSize: 12,
+                    fontSize: 8,
                     height: 0,
                   ),
                 ),
