@@ -87,7 +87,10 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                   prefixIconColor:
                       widget.shadowColor ?? Colors.black.withValues(alpha: 0.8),
                   hintText: widget.hintText,
-                  hintStyle: const TextStyle(color: AppColor.blackColor),
+                  hintStyle: const TextStyle(
+                    color: AppColor.blackColor,
+                    fontSize: 14,
+                  ),
                   filled: false,
                   suffixIcon: widget.obscureText
                       ? InkWell(
