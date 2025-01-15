@@ -11,7 +11,8 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User List'),
+        title: const Text('Users List'),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
