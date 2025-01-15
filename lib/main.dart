@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'Utills/app_theme.dart';
+import 'Utills/Resources/app_theme.dart';
 import 'Views/LoginView/login_view.dart';
 
 Future<void> main() async {

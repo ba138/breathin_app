@@ -38,6 +38,7 @@ dependencies:
   firebase_core: ^3.10.0
   firebase_auth: ^5.4.0
   cloud_firestore: ^5.6.1
+  just_audio: ^0.9.43
 
 dev_dependencies:
   flutter_test:

@@ -1,13 +1,14 @@
+import 'package:breathin_app/Utills/Resources/colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
   // Define the light theme
   static final ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: Colors.deepPurple,
+      seedColor: AppColor.primaryColor,
       brightness: Brightness.light,
     ),
-    scaffoldBackgroundColor: Colors.grey[100],
-    useMaterial3: true,
+    scaffoldBackgroundColor: AppColor.backgroundColor,
+    useMaterial3: false,
   );
 }
